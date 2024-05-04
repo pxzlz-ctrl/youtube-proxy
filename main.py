@@ -1,5 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 from pytube import YouTube
+from pytube.innertube import _default_clients
+
+_default_clients["ANDROID_MUSIC"] = _default_clients["ANDROID"]
+extractYB = YouTube(source_url)
 
 app = Flask(__name__)
 
@@ -11,11 +15,7 @@ def index():
 def stream():
     if request.method == 'POST':
         youtube_url = request.form['youtube_url']
-        yt = YouTube(
-          youtube_url,
-          use_oauth=True,
-          allow_oauth_cache=True
-        )
+        yt = YouTube(youtube_url)
         stream = yt.streams.get_highest_resolution()
         stream_url = stream.url
 
