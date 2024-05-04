@@ -11,7 +11,11 @@ def index():
 def stream():
     if request.method == 'POST':
         youtube_url = request.form['youtube_url']
-        yt = YouTube(youtube_url)
+        yt = YouTube(
+          youtube_url,
+          use_oauth=True,
+          allow_oauth_cache=True
+        )
         stream = yt.streams.get_highest_resolution()
         stream_url = stream.url
 
